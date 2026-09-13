@@ -1,0 +1,117 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10
+        with:
+          version: "0.12.12"
+          python-version: "3.12"
+          enable-cache: true
+
+      - name: Install locked Python dependencies
+        run: uv sync --locked
+
+      - name: Run backend checks
+        run: make backend-checks
+
+      - name: Run backend tests when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          test_file="$(find tests -type f \( -name 'test_*.py' -o -name '*_test.py' \) -print -quit 2>/dev/null || true)"
+          if [ -n "$test_file" ]; then
+            if ! .venv/bin/python -c "import pytest"; then
+              echo "::error::Backend test files found, but pytest is not installed in the locked development dependencies."
+              exit 1
+            fi
+            .venv/bin/python -m pytest tests
+          else
+            echo "::notice title=Backend tests deferred::No backend test suite is present; test execution is deferred under the MVP verification policy."
+          fi
+
+  frontend:
+    name: Frontend checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install locked npm dependencies
+        run: npm ci --prefix frontend
+
+      - name: Run frontend checks
+        run: make frontend-checks
+
+      - name: Run frontend tests when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          test_script="$(node -e 'const fs = require("fs"); const pkg = JSON.parse(fs.readFileSync("frontend/package.json", "utf8")); process.stdout.write(pkg.scripts?.test ?? "");')"
+          if [ -n "$test_script" ]; then
+            npm --prefix frontend run "$test_script" -- --run
+          else
+            echo "::notice title=Frontend tests deferred::No frontend test script is present; test execution is deferred under the MVP verification policy."
+          fi
+
+  secret-scan:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
+      security-events: write
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Scan for secrets
+        uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  dependency-review:
+    name: Dependency review
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@v5
+        with:
+          fail-on-severity: high
+          comment-summary-in-pr: always

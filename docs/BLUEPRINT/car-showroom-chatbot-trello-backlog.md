@@ -88,9 +88,21 @@ Priority: P0 | Size: S | Role: Platform | Depends on: T01, T02, T03
 
 Scope: Run backend/frontend static checks, tests and frontend build; make room for PostgreSQL integration tests.
 
-- [ ] Pull requests run repeatable checks without real cloud credentials.
-- [ ] Secret and dependency scanning are configured with actionable output.
-- [ ] Failed tests/builds fail CI; optional live tests are separate from required offline checks.
+- [x] Pull requests run repeatable checks without real cloud credentials.
+- [x] Secret and dependency scanning are configured with actionable output.
+- [x] Failed tests/builds fail CI; optional live tests are separate from required offline checks.
+
+Test / review evidence:
+
+- .github/workflows/ci.yml runs locked backend checks, frontend checks, conditional test
+  suites, Gitleaks secret scanning, and pull-request dependency review without cloud
+  provider credentials.
+- .github/workflows/optional-integration.yml isolates manual PostgreSQL integration
+  checks from required offline pull-request jobs.
+- make backend-checks and make frontend-checks provide the same local check groups.
+
+Deferred under MVP verification policy: no backend or frontend test suite exists yet, so
+conditional test steps report the missing suites rather than claiming test coverage.
 
 ## M02 — PostgreSQL and SQLAlchemy
 
