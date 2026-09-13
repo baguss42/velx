@@ -116,3 +116,5 @@
 - Added explicit AGENTS.md guidance for verifying the baguss42 GitHub actor before PR
   creation, using the connected GitHub API/connector or verified gh CLI, and checking PR
   author/refs before the Trello transition.
+- Commit 99a8178 was pushed to the task branch; PR #4 now points to that head and remains
+  open against main, with the connected account and PR author verified as baguss42.
