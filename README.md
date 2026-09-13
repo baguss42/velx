@@ -21,6 +21,14 @@ Run the backend and frontend in separate terminals:
 npm --prefix frontend run dev
 ```
 
+Or start both development servers from one terminal:
+
+```sh
+make dev
+```
+
+Use `make api` or `make web` when only one server is needed.
+
 Open the Vite URL shown in the frontend terminal. The frontend `/api` proxy forwards local
 requests to FastAPI at `http://127.0.0.1:8000`; provider and database credentials are never
 loaded by the browser.

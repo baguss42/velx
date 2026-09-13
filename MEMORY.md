@@ -63,3 +63,9 @@
 - Verification: `.venv/bin/ruff format --check app`, `.venv/bin/ruff check app`, `.venv/bin/mypy app`, frontend Prettier check, TypeScript check, and Vite build passed. Live `GET /health/live` and Vite `/api/health/live` proxy checks returned `{"status":"ok","service":"velx-api"}`. Browser smoke check found meaningful content, no error overlay, no browser errors, and no horizontal overflow at 360px, 768px, or 1280px.
 - Deferred under MVP policy: unit and integration tests; T02 contracts, T03 configuration validation, and later feature work remain outside T01.
 - Current state: commit `f7576a5` is pushed on dedicated branch `T01-scaffold-python-backend-react-frontend`; pull request [#1](https://github.com/baguss42/velx/pull/1) is open against `main`; Trello card is in `Code Review`.
+
+## 2026-09-13 — T01 Makefile shortcuts
+
+- Added root `Makefile` shortcuts: `make api`, `make web`, and `make dev` for the FastAPI server, Vite server, or both together.
+- Documented the shortcuts in `README.md`.
+- Verification: `make dev` started both servers; direct health and Vite `/api` proxy requests returned the FastAPI health response. Unit and integration tests remain deferred under MVP policy.
