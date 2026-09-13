@@ -1,0 +1,3 @@
+# Optional development tooling; not a chatbot runtime dependency.
+# Keep in sync with .agents/skills/graphify/.graphify_version.
+graphifyy==0.9.61

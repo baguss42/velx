@@ -257,3 +257,6 @@ pnpm-debug.log*
 # Operating System Files
 .DS_Store
 Thumbs.db
+
+# Local Graphify index and generated visualization/cache files
+/graphify-out/

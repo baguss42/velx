@@ -88,13 +88,16 @@ The design's `tests/` and `frontend/tests/` directories are deferred under the M
 
 ## graphify
 
-This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+Graphify is optional development tooling for repository navigation, not the chatbot's LangGraph orchestration or RAGFlow retrieval. Its project-local skill is [graphify](.agents/skills/graphify/SKILL.md); setup and usage are documented in [Graphify guide](docs/GRAPHIFY.md).
 
-When the user types `/graphify`, use the installed graphify skill or instructions before doing anything else.
+When the user invokes `$graphify` (Codex) or `/graphify`, read the installed skill before executing its workflow. Run the CLI through `.venv/bin/graphify` when installed there; an existing standalone `graphify` installation can also be used. Do not install Python dependencies into the system interpreter.
+
+The generated graph belongs in `graphify-out/`. Do not claim it exists or is current until verified. The initial AST-only smoke check produced an empty graph because application code has not been scaffolded; document semantics have not been indexed.
 
 Rules:
 - For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
-- Dirty graphify-out/ files are expected after hooks or incremental updates; dirty graph files are not a reason to skip graphify. Only skip graphify if the task is about stale or incorrect graph output, or the user explicitly says not to use it.
+- Generated graphify-out/ files are ignored by Git. If the graph or CLI is unavailable, stale, or does not provide enough evidence, report the limitation and inspect source files directly. Graph output is navigation evidence, not a replacement for required blueprint reads or current source verification.
 - If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
 - Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
 - After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+- Honor `.graphifyignore`. Keep semantic documentation extraction explicit; never silently select a paid API backend or upload project content. AST-only extraction does not index document meaning. Do not install background watchers, Git hooks, or change global agent settings unless requested.

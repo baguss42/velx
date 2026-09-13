@@ -42,3 +42,13 @@
 - Skills now use Codex's documented repository discovery layout; discovery in a fresh session has not been verified.
 - Verification: skill frontmatter and all local links in both skills and `AGENTS.md` passed validation; old skill files are absent and their empty directories were removed.
 - Changes remain local; no commit, push, PR, or Trello transition performed.
+
+## 2026-09-13 — Graphify project integration
+
+- Found an existing standalone Graphify 0.9.61 installation and Graphify guidance already committed in `AGENTS.md`.
+- Registered the upstream skill and references locally using `graphify install --platform agents --project`; files live under `.agents/skills/graphify/`.
+- Added the optional `graphifyy==0.9.61` pin in `requirements-tools.txt`, `.venv` setup instructions in `docs/GRAPHIFY.md`, `.graphifyignore`, and Git exclusion for generated `graphify-out/` content.
+- Updated agent guidance to link the skill, distinguish missing/stale graphs from verified evidence, and separate development Graphify from application LangGraph/RAGFlow.
+- AST-only smoke check (`graphify extract . --code-only --no-cluster`) exited successfully, skipped six documentation files, and generated an empty local graph (0 nodes, 0 edges). Application code does not exist yet; semantic extraction remains explicit. No external model backend, watcher, Git hook, or global configuration was enabled.
+- Existing standalone CLI was reused; no project `.venv` created. No unit/integration tests run.
+- Verified skill metadata, bundled reference paths, version stamp, and diff whitespace. Changes remain local; no task card was supplied and no commit, push, or PR was created.

@@ -1,0 +1,17 @@
+# Exclude generated output, dependencies, and local agent configuration.
+.git/
+.venv/
+node_modules/
+graphify-out/
+.agents/
+.codex/
+dist/
+build/
+__pycache__/
+
+# Do not index local credentials. Configuration examples remain usable.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
