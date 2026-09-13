@@ -82,3 +82,4 @@
 - Added generated JSON Schema and TypeScript artifacts plus a compatibility checker and representative fixtures covering unknown/unavailable price data, currency, timestamps, and sign-in-required actions.
 - Added contract documentation for distinct request, conversation, run, trace, and tool-call identifiers; updated `Makefile`, `README.md`, and frontend type exports.
 - Verification: `make contracts-check`, `.venv/bin/ruff format --check app scripts`, `.venv/bin/ruff check app scripts`, `.venv/bin/mypy app`, frontend Prettier check, TypeScript check, and Vite build passed. `graphify update .` refreshed the local ignored code graph. Unit and integration tests remain deferred under MVP policy.
+- Checked all three T02 acceptance items in `docs/BLUEPRINT/car-showroom-chatbot-trello-backlog.md`; checklist update is included in the task branch and PR.
