@@ -52,3 +52,20 @@
 - AST-only smoke check (`graphify extract . --code-only --no-cluster`) exited successfully, skipped six documentation files, and generated an empty local graph (0 nodes, 0 edges). Application code does not exist yet; semantic extraction remains explicit. No external model backend, watcher, Git hook, or global configuration was enabled.
 - Existing standalone CLI was reused; no project `.venv` created. No unit/integration tests run.
 - Verified skill metadata, bundled reference paths, version stamp, and diff whitespace. Changes remain local; no task card was supplied and no commit, push, or PR was created.
+
+## 2026-09-13 — T01 foundation scaffold
+
+- Trello card `T01 — Scaffold Python backend and React frontend` was located on VelX and moved from `Backlog` to `Dev` before implementation.
+- Created FastAPI app entry point with `/health/live` and `/health/ready`, design-aligned backend package layout, `pyproject.toml`, and locked Python dependencies in `uv.lock`.
+- Created React + TypeScript + Vite frontend with design tokens, placeholder Indonesian chat shell, API health status, frontend package layout, `/api` proxy rewrite, `.env.example`, and `package-lock.json`.
+- Updated `README.md` with setup, run, formatting, lint, type-check, build, health, and layout commands. Updated `DESIGN.md` with the implemented stylesheet path, T01 shell decision, and completed manual review evidence.
+- Checked all three completed T01 acceptance items in `docs/BLUEPRINT/car-showroom-chatbot-trello-backlog.md`; `uv lock --check` passed after the initial sandbox cache permission error was retried with the required access.
+- Verification: `.venv/bin/ruff format --check app`, `.venv/bin/ruff check app`, `.venv/bin/mypy app`, frontend Prettier check, TypeScript check, and Vite build passed. Live `GET /health/live` and Vite `/api/health/live` proxy checks returned `{"status":"ok","service":"velx-api"}`. Browser smoke check found meaningful content, no error overlay, no browser errors, and no horizontal overflow at 360px, 768px, or 1280px.
+- Deferred under MVP policy: unit and integration tests; T02 contracts, T03 configuration validation, and later feature work remain outside T01.
+- Current state: commits `f7576a5`, `cdcdbc0`, and `f75c409` are pushed on dedicated branch `T01-scaffold-python-backend-react-frontend`; pull request [#1](https://github.com/baguss42/velx/pull/1) is open against `main`; Trello card is in `Code Review`.
+
+## 2026-09-13 — T01 Makefile shortcuts
+
+- Added root `Makefile` shortcuts: `make api`, `make web`, and `make dev` for the FastAPI server, Vite server, or both together.
+- Documented the shortcuts in `README.md`.
+- Verification: `make dev` started both servers; direct health and Vite `/api` proxy requests returned the FastAPI health response. Unit and integration tests remain deferred under MVP policy.
