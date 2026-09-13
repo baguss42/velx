@@ -74,3 +74,11 @@
 
 - Updated `AGENTS.md` to require Trello MCP tools for all Trello reads and writes, prohibit browser or UI automation for Trello, and require human clarification when MCP access is unavailable or insufficient.
 - Verification: reviewed the documentation diff and local references. No Trello operation, card transition, branch, commit, push, PR, or tests performed.
+
+## 2026-09-13 — T02 API, tool, and event contracts
+
+- Trello card `T02 — Define API, tool and event contracts` was found on VelX and moved from `Backlog` to `Dev` before implementation.
+- Added canonical Pydantic contracts for chat requests, run correlation, safe SSE events, tool calls/envelopes, source/product/price/action cards, and safe errors under `app/api/contracts.py` and `app/tools/contracts.py`.
+- Added generated JSON Schema and TypeScript artifacts plus a compatibility checker and representative fixtures covering unknown/unavailable price data, currency, timestamps, and sign-in-required actions.
+- Added contract documentation for distinct request, conversation, run, trace, and tool-call identifiers; updated `Makefile`, `README.md`, and frontend type exports.
+- Verification: `make contracts-check`, `.venv/bin/ruff format --check app scripts`, `.venv/bin/ruff check app scripts`, `.venv/bin/mypy app`, frontend Prettier check, TypeScript check, and Vite build passed. `graphify update .` refreshed the local ignored code graph. Unit and integration tests remain deferred under MVP policy.

@@ -38,9 +38,10 @@ loaded by the browser.
 Backend commands use the locked `.venv` tools:
 
 ```sh
-.venv/bin/ruff format app
-.venv/bin/ruff check app
+.venv/bin/ruff format --check app scripts
+.venv/bin/ruff check app scripts
 .venv/bin/mypy app
+.venv/bin/python scripts/check_contracts.py
 ```
 
 Frontend commands use the locked `frontend/package-lock.json` dependencies:
@@ -50,6 +51,18 @@ npm --prefix frontend run format:check
 npm --prefix frontend run typecheck
 npm --prefix frontend run build
 ```
+
+Contract artifacts are generated from the canonical Pydantic models:
+
+```sh
+make contracts
+make contracts-check
+```
+
+The generated JSON Schema and TypeScript types cover chat requests, safe SSE events, tool
+envelopes, source/product/price/action cards, and safe errors. Representative unknown,
+unavailable, currency, timestamp, and sign-in-required examples are validated by the
+compatibility check.
 
 The local health endpoints are `GET /health/live` and `GET /health/ready`.
 

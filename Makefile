@@ -1,4 +1,4 @@
-.PHONY: api web dev
+.PHONY: api web dev contracts contracts-check
 
 api:
 	.venv/bin/uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
@@ -11,3 +11,9 @@ dev:
 		$(MAKE) api & \
 		$(MAKE) web & \
 		wait
+
+contracts:
+	.venv/bin/python scripts/generate_contract_types.py
+
+contracts-check:
+	.venv/bin/python scripts/check_contracts.py
