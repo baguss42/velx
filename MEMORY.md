@@ -111,4 +111,8 @@
   integration remain deferred under the MVP policy.
 - Commit 08d0e2f was created and pushed on T04-create-ci-checks-both-applications. Pull
   request #4 (https://github.com/baguss42/velx/pull/4) was created against main by
-  baguss42. Trello Code Review transition is pending confirmation.
+  baguss42. Commit 6935446 records the final handoff metadata and is also pushed. Trello
+  card was confirmed in Code Review after the final push and PR creation.
+- Added explicit AGENTS.md guidance for verifying the baguss42 GitHub actor before PR
+  creation, using the connected GitHub API/connector or verified gh CLI, and checking PR
+  author/refs before the Trello transition.

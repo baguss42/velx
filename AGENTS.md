@@ -31,6 +31,15 @@ These instructions apply throughout this repository.
 - Keep `origin` on the SSH remote `git@github.com:baguss42/velx.git`; use the same SSH remote for pushes. Use a repository-local `core.sshCommand` that selects the personal SSH key (currently `id_ed25519_personal`) with `IdentitiesOnly=yes`; do not change global SSH configuration. Never embed credentials or tokens in repository URLs or files.
 - Before committing or pushing, verify the effective local identity and remote with `git config --local --get-regexp '^(user\.|remote\.origin\.)'` and `git remote -v`.
 - This repository-local account rule does not authorize direct pushes to `main`; follow the task-branch and pull-request workflow above.
+- IMPORTANT: Only use the personal GitHub account `baguss42` for commits and pushes; do not use `bagus-bfi`.
+- Before creating a PR, verify the GitHub actor is `baguss42`. Prefer the connected GitHub
+  API/connector authenticated as `baguss42`; if using the `gh` CLI, run
+  `gh auth status --hostname github.com` and stop if the active account is not
+  `baguss42` or its token is invalid.
+- Create the PR against the repository default branch from the task branch, for example
+  `gh pr create --repo baguss42/velx --base main --head <task-branch>`. Never create or
+  update a PR through `bagus-bfi` credentials. After creation, verify PR author,
+  head branch, base branch, and URL before moving the Trello card to Code Review.
 
 ## Package design layout
 

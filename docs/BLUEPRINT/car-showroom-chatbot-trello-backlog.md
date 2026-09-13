@@ -113,6 +113,7 @@ Delivery:
   workflow formatting, conditional test-gate smoke checks, and local Gitleaks scan passed.
 - Deferred: backend/frontend tests and PostgreSQL integration tests remain deferred under
   the MVP verification policy; actionlint and local pip-audit were unavailable.
+- Trello: card confirmed in Code Review after branch push and PR creation.
 
 ## M02 — PostgreSQL and SQLAlchemy
 
