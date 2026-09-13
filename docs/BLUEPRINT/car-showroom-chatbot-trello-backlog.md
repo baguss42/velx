@@ -78,9 +78,9 @@ Priority: P0 | Size: S | Role: Backend | Depends on: T01
 
 Scope: Implement settings from the design and public frontend settings; separate explicit mock and production modes.
 
-- [ ] `.env.example` documents every setting with no usable secret values.
-- [ ] Production rejects fake auth/providers, unsafe URLs and missing enabled-feature credentials.
-- [ ] Fictional showroom, car and price fixtures are clearly labeled in development.
+- [x] `.env.example` documents every setting with no usable secret values.
+- [x] Production rejects fake auth/providers, unsafe URLs and missing enabled-feature credentials.
+- [x] Fictional showroom, car and price fixtures are clearly labeled in development.
 
 ### T04 — Create CI checks for both applications
 

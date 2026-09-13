@@ -33,6 +33,13 @@ Open the Vite URL shown in the frontend terminal. The frontend `/api` proxy forw
 requests to FastAPI at `http://127.0.0.1:8000`; provider and database credentials are never
 loaded by the browser.
 
+## Configuration
+
+Copy `.env.example` to `.env` for local backend settings. Local defaults use an explicit fake
+identity mode and deterministic mock LLM provider; development fixtures are fictional and marked
+as such. Production-like environments reject fake integrations, placeholder or unsafe URLs, and
+missing credentials for enabled features. Keep backend `.env` files out of source control.
+
 ## Developer checks
 
 Backend commands use the locked `.venv` tools:
