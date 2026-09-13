@@ -62,7 +62,7 @@
 - Checked all three completed T01 acceptance items in `docs/BLUEPRINT/car-showroom-chatbot-trello-backlog.md`; `uv lock --check` passed after the initial sandbox cache permission error was retried with the required access.
 - Verification: `.venv/bin/ruff format --check app`, `.venv/bin/ruff check app`, `.venv/bin/mypy app`, frontend Prettier check, TypeScript check, and Vite build passed. Live `GET /health/live` and Vite `/api/health/live` proxy checks returned `{"status":"ok","service":"velx-api"}`. Browser smoke check found meaningful content, no error overlay, no browser errors, and no horizontal overflow at 360px, 768px, or 1280px.
 - Deferred under MVP policy: unit and integration tests; T02 contracts, T03 configuration validation, and later feature work remain outside T01.
-- Current state: commit `f7576a5` is pushed on dedicated branch `T01-scaffold-python-backend-react-frontend`; pull request [#1](https://github.com/baguss42/velx/pull/1) is open against `main`; Trello card is in `Code Review`.
+- Current state: commits `f7576a5`, `cdcdbc0`, and `f75c409` are pushed on dedicated branch `T01-scaffold-python-backend-react-frontend`; pull request [#1](https://github.com/baguss42/velx/pull/1) is open against `main`; Trello card is in `Code Review`.
 
 ## 2026-09-13 — T01 Makefile shortcuts
 
