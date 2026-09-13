@@ -24,6 +24,14 @@ These instructions apply throughout this repository.
 - If the card, board, destination list, access, or push target is missing or ambiguous, ask the human. Never invent Trello state or claim a move or push succeeded without confirmation from the operation.
 - Do not assume requirements or business decisions. Ask the human whenever instructions are unclear or information needed for the task is missing.
 
+## Repository-local Git account
+
+- This repository uses the personal GitHub account `baguss42` for commits and pushes. Keep the global Git identity and credentials for `bagus-bfi` unchanged.
+- Use repository-local Git identity settings only: `user.name = Bagus Sadewo`, `user.email = baguss42@users.noreply.github.com`, and `user.useConfigOnly = true`.
+- Keep `origin` on the SSH remote `git@github.com:baguss42/velx.git`; use the same SSH remote for pushes. Use a repository-local `core.sshCommand` that selects the personal SSH key (currently `id_ed25519_personal`) with `IdentitiesOnly=yes`; do not change global SSH configuration. Never embed credentials or tokens in repository URLs or files.
+- Before committing or pushing, verify the effective local identity and remote with `git config --local --get-regexp '^(user\.|remote\.origin\.)'` and `git remote -v`.
+- This repository-local account rule does not authorize direct pushes to `main`; follow the task-branch and pull-request workflow above.
+
 ## Package design layout
 
 Follow the implementation design's suggested package layout and retain its separation of responsibilities:
