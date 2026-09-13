@@ -20,7 +20,7 @@ Default presentation uses Indonesian, IDR, and Asia/Jakarta as specified in the 
 
 ## Shared design tokens
 
-Define these defaults once as CSS custom properties in the frontend's shared stylesheet. Reuse semantic tokens rather than duplicating values in individual components. Actual stylesheet paths must be recorded here when the frontend is scaffolded.
+Define these defaults once as CSS custom properties in the frontend's shared stylesheet. Reuse semantic tokens rather than duplicating values in individual components. The initial implementation lives in `frontend/src/styles.css`; update this guide when shared UI decisions change.
 
 | Token | Initial value | Use |
 |---|---|---|
@@ -147,3 +147,14 @@ Use this template for future shared design decisions:
 - Affected files: `DESIGN.md`, `AGENTS.md`, `MEMORY.md`. Frontend component and stylesheet paths are pending scaffolding.
 - Verification: document consistency and local references reviewed. No rendered UI exists to inspect.
 - Human clarification: official brand identity and approved media remain unspecified. Do not invent them.
+
+### 2026-09-13 — T01 placeholder chat shell
+
+- Task / PR: T01 — Scaffold Python backend and React frontend
+- Status: implemented foundation
+- Decision: use `frontend/src/styles.css` for the shared design tokens and a conversation-first placeholder shell with the configured `/api` health status.
+- Affected components / files: `frontend/src/App.tsx`, `frontend/src/components/ChatShell.tsx`, `frontend/src/styles.css`, `frontend/src/vite.config.ts`.
+- States / responsive behavior: checking, connected, and disconnected API status; mobile composer stacks below 768px; safe-area padding is included.
+- Accessibility: semantic heading, labeled composer, status announcement, visible focus ring, and minimum 44px controls.
+- Verification: `npm --prefix frontend run format:check`, `npm --prefix frontend run typecheck`, and `npm --prefix frontend run build` passed. Browser smoke review passed at 360px, 768px, and 1280px with no horizontal overflow; interactive labels and visible focus styles were inspected.
+- Human clarification: official brand identity and approved media remain unspecified; placeholder copy stays generic.
