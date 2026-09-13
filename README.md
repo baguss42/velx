@@ -27,6 +27,15 @@ Or start both development servers from one terminal:
 make dev
 ```
 
+Start the local PostgreSQL infrastructure when working on database-backed features:
+
+```sh
+make infra-up
+```
+
+Stop the service with `make infra-down`. The named database volume is preserved; use
+`docker compose down -v` when you intentionally want a fresh local database.
+
 Use `make api` or `make web` when only one server is needed.
 
 Open the Vite URL shown in the frontend terminal. The frontend `/api` proxy forwards local
@@ -45,8 +54,8 @@ missing credentials for enabled features. Keep backend `.env` files out of sourc
 Backend commands use the locked `.venv` tools:
 
 ```sh
-.venv/bin/ruff format --check app scripts
-.venv/bin/ruff check app scripts
+.venv/bin/ruff format --check app scripts migrations
+.venv/bin/ruff check app scripts migrations
 .venv/bin/mypy app
 .venv/bin/python scripts/check_contracts.py
 ```
@@ -88,6 +97,10 @@ unavailable, currency, timestamp, and sign-in-required examples are validated by
 compatibility check.
 
 The local health endpoints are `GET /health/live` and `GET /health/ready`.
+
+The T05 catalog/commercial schema and reproducible fictional PostgreSQL seed path are
+documented in [docs/database.md](docs/database.md). `make db-seed` applies Alembic
+migrations and then seeds only development/test fixtures.
 
 ## Project layout
 

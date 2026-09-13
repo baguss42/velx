@@ -123,9 +123,9 @@ Priority: P0 | Size: M | Role: Backend/data | Depends on: T03
 
 Scope: Migrate tenants, branches, car models/variants, approved assets, vehicle units, price offers and sync-state tables from the design.
 
-- [ ] Tenant-safe foreign keys, unique keys and lookup indexes exist.
-- [ ] Numeric/currency/status checks and nonoverlapping offer validity rules are enforced.
-- [ ] Migrations and fictional seeding run from an empty PostgreSQL database.
+- [x] Tenant-safe foreign keys, unique keys and lookup indexes exist.
+- [x] Numeric/currency/status checks and nonoverlapping offer validity rules are enforced.
+- [x] Migrations and fictional seeding run from an empty PostgreSQL database.
 
 ### T06 — Create customer and conversation schema migrations
 

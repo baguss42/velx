@@ -9,8 +9,11 @@ description = "VelX car showroom chatbot backend"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "alembic>=1.16,<2",
     "fastapi[standard]>=0.117,<1",
+    "psycopg[binary]>=3.2,<4",
     "pydantic-settings>=2.10,<3",
+    "SQLAlchemy>=2.0,<3",
 ]
 
 [dependency-groups]
