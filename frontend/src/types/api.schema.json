@@ -1,0 +1,1104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "contracts": [
+    "ActionCard",
+    "SafeError",
+    "SourceCard",
+    "ProductCard",
+    "PriceCard",
+    "ToolEnvelope",
+    "ToolCallRequest",
+    "ChatRequest",
+    "RunCreatedResponse",
+    "StatusEvent",
+    "AnswerDeltaEvent",
+    "SourcesEvent",
+    "CardsEvent",
+    "DoneEvent",
+    "ErrorEvent",
+    "ToolCard",
+    "SseEvent",
+    "SafeErrorCode",
+    "AmountString",
+    "CurrencyCode",
+    "ToolStatus",
+    "RunStatus"
+  ],
+  "$defs": {
+    "ActionCard": {
+      "additionalProperties": false,
+      "description": "A server-approved next step; opening it is not completion of that step.",
+      "properties": {
+        "kind": {
+          "const": "action",
+          "default": "action",
+          "title": "Kind",
+          "type": "string"
+        },
+        "action_id": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "title": "Action Id",
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        },
+        "external": {
+          "title": "External",
+          "type": "boolean"
+        },
+        "requires_auth": {
+          "title": "Requires Auth",
+          "type": "boolean"
+        },
+        "auth_reason": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Auth Reason"
+        }
+      },
+      "required": [
+        "kind",
+        "action_id",
+        "label",
+        "url",
+        "external",
+        "requires_auth",
+        "auth_reason"
+      ],
+      "title": "ActionCard",
+      "type": "object"
+    },
+    "SafeErrorCode": {
+      "enum": [
+        "invalid_request",
+        "not_authenticated",
+        "not_authorized",
+        "not_found",
+        "unavailable",
+        "stale_data",
+        "conflict",
+        "rate_limited",
+        "timeout",
+        "cancelled",
+        "internal_error"
+      ],
+      "type": "string"
+    },
+    "SafeError": {
+      "additionalProperties": false,
+      "description": "Safe customer-facing error; never carry raw exception text or private data.",
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/SafeErrorCode"
+        },
+        "message": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        },
+        "retryable": {
+          "title": "Retryable",
+          "type": "boolean"
+        },
+        "next_action": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ActionCard"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": ["code", "message", "retryable", "next_action"],
+      "title": "SafeError",
+      "type": "object"
+    },
+    "SourceCard": {
+      "additionalProperties": false,
+      "description": "Approved citation metadata safe to render beside an answer.",
+      "properties": {
+        "kind": {
+          "const": "source",
+          "default": "source",
+          "title": "Kind",
+          "type": "string"
+        },
+        "source_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "retrieved_at": {
+          "format": "date-time",
+          "title": "Retrieved At",
+          "type": "string"
+        },
+        "as_of": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "As Of"
+        },
+        "document_version": {
+          "anyOf": [
+            {
+              "maxLength": 80,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Document Version"
+        }
+      },
+      "required": [
+        "kind",
+        "source_id",
+        "title",
+        "url",
+        "retrieved_at",
+        "as_of",
+        "document_version"
+      ],
+      "title": "SourceCard",
+      "type": "object"
+    },
+    "ProductCard": {
+      "additionalProperties": false,
+      "description": "Approved public vehicle identity and media metadata.",
+      "properties": {
+        "kind": {
+          "const": "product",
+          "default": "product",
+          "title": "Kind",
+          "type": "string"
+        },
+        "variant_id": {
+          "format": "uuid",
+          "title": "Variant Id",
+          "type": "string"
+        },
+        "model_name": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Model Name",
+          "type": "string"
+        },
+        "model_year": {
+          "maximum": 2100,
+          "minimum": 2000,
+          "title": "Model Year",
+          "type": "integer"
+        },
+        "variant_name": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Variant Name",
+          "type": "string"
+        },
+        "body_type": {
+          "anyOf": [
+            {
+              "maxLength": 80,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Body Type"
+        },
+        "image_url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Image Url"
+        },
+        "brochure_url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Brochure Url"
+        }
+      },
+      "required": [
+        "kind",
+        "variant_id",
+        "model_name",
+        "model_year",
+        "variant_name",
+        "body_type",
+        "image_url",
+        "brochure_url"
+      ],
+      "title": "ProductCard",
+      "type": "object"
+    },
+    "AmountString": {
+      "pattern": "^\\d+(\\.\\d{1,2})?$",
+      "type": "string"
+    },
+    "CurrencyCode": {
+      "maxLength": 3,
+      "minLength": 3,
+      "pattern": "^[A-Z]{3}$",
+      "type": "string"
+    },
+    "PriceCard": {
+      "additionalProperties": false,
+      "description": "Current commercial snapshot with explicit unknown and unavailable states.",
+      "properties": {
+        "kind": {
+          "const": "price",
+          "default": "price",
+          "title": "Kind",
+          "type": "string"
+        },
+        "variant_id": {
+          "format": "uuid",
+          "title": "Variant Id",
+          "type": "string"
+        },
+        "branch_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Branch Id"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AmountString"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "currency": {
+          "$ref": "#/$defs/CurrencyCode"
+        },
+        "availability": {
+          "enum": ["available", "not_available", "unknown"],
+          "title": "Availability",
+          "type": "string"
+        },
+        "lookup_status": {
+          "enum": ["verified", "unavailable", "unknown"],
+          "title": "Lookup Status",
+          "type": "string"
+        },
+        "freshness": {
+          "enum": ["current", "stale", "unknown"],
+          "title": "Freshness",
+          "type": "string"
+        },
+        "qualifiers": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "title": "Qualifiers",
+          "type": "array"
+        },
+        "as_of": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "As Of"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expires At"
+        },
+        "message": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "variant_id",
+        "branch_id",
+        "amount",
+        "currency",
+        "availability",
+        "lookup_status",
+        "freshness",
+        "qualifiers",
+        "as_of",
+        "expires_at",
+        "message"
+      ],
+      "title": "PriceCard",
+      "type": "object"
+    },
+    "ToolCard": {
+      "discriminator": {
+        "mapping": {
+          "action": "#/$defs/ActionCard",
+          "price": "#/$defs/PriceCard",
+          "product": "#/$defs/ProductCard",
+          "source": "#/$defs/SourceCard"
+        },
+        "propertyName": "kind"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/SourceCard"
+        },
+        {
+          "$ref": "#/$defs/ProductCard"
+        },
+        {
+          "$ref": "#/$defs/PriceCard"
+        },
+        {
+          "$ref": "#/$defs/ActionCard"
+        }
+      ]
+    },
+    "ToolStatus": {
+      "enum": ["success", "empty", "denied", "unavailable", "invalid_input"],
+      "type": "string"
+    },
+    "ToolEnvelope": {
+      "additionalProperties": false,
+      "description": "Normalized result paired to exactly one model tool call.",
+      "properties": {
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "run_id": {
+          "format": "uuid",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "trace_id": {
+          "format": "uuid",
+          "title": "Trace Id",
+          "type": "string"
+        },
+        "tool_call_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Tool Call Id",
+          "type": "string"
+        },
+        "tool_name": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Tool Name",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/ToolStatus"
+        },
+        "data": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ToolCard"
+            },
+            {
+              "items": {
+                "$ref": "#/$defs/ToolCard"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Data"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 32,
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "as_of": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "As Of"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expires At"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SafeError"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "request_id",
+        "conversation_id",
+        "run_id",
+        "trace_id",
+        "tool_call_id",
+        "tool_name",
+        "status",
+        "data",
+        "source_refs",
+        "as_of",
+        "expires_at",
+        "error"
+      ],
+      "title": "ToolEnvelope",
+      "type": "object"
+    },
+    "ToolCallRequest": {
+      "additionalProperties": false,
+      "description": "Model-proposed call metadata before application validation and execution.",
+      "properties": {
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "run_id": {
+          "format": "uuid",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "trace_id": {
+          "format": "uuid",
+          "title": "Trace Id",
+          "type": "string"
+        },
+        "tool_call_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Tool Call Id",
+          "type": "string"
+        },
+        "tool_name": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Tool Name",
+          "type": "string"
+        },
+        "arguments": {
+          "additionalProperties": true,
+          "title": "Arguments",
+          "type": "object"
+        }
+      },
+      "required": [
+        "request_id",
+        "conversation_id",
+        "run_id",
+        "trace_id",
+        "tool_call_id",
+        "tool_name",
+        "arguments"
+      ],
+      "title": "ToolCallRequest",
+      "type": "object"
+    },
+    "ChatRequest": {
+      "additionalProperties": false,
+      "description": "Request body for starting one customer-visible conversation run.",
+      "properties": {
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "message": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        },
+        "locale": {
+          "default": "id-ID",
+          "maxLength": 16,
+          "minLength": 2,
+          "title": "Locale",
+          "type": "string"
+        }
+      },
+      "required": ["request_id", "conversation_id", "message", "locale"],
+      "title": "ChatRequest",
+      "type": "object"
+    },
+    "RunStatus": {
+      "enum": ["queued", "running", "validating", "completed", "cancelled"],
+      "type": "string"
+    },
+    "RunCreatedResponse": {
+      "additionalProperties": false,
+      "description": "Identifiers returned when an idempotent run is accepted.",
+      "properties": {
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "run_id": {
+          "format": "uuid",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "trace_id": {
+          "format": "uuid",
+          "title": "Trace Id",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        }
+      },
+      "required": [
+        "request_id",
+        "conversation_id",
+        "run_id",
+        "trace_id",
+        "status"
+      ],
+      "title": "RunCreatedResponse",
+      "type": "object"
+    },
+    "StatusEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event": {
+          "const": "status",
+          "default": "status",
+          "title": "Event",
+          "type": "string"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "run_id": {
+          "format": "uuid",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "trace_id": {
+          "format": "uuid",
+          "title": "Trace Id",
+          "type": "string"
+        },
+        "occurred_at": {
+          "format": "date-time",
+          "title": "Occurred At",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        },
+        "message": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "event",
+        "request_id",
+        "conversation_id",
+        "run_id",
+        "trace_id",
+        "occurred_at",
+        "status",
+        "message"
+      ],
+      "title": "StatusEvent",
+      "type": "object"
+    },
+    "AnswerDeltaEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event": {
+          "const": "answer_delta",
+          "default": "answer_delta",
+          "title": "Event",
+          "type": "string"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "run_id": {
+          "format": "uuid",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "trace_id": {
+          "format": "uuid",
+          "title": "Trace Id",
+          "type": "string"
+        },
+        "occurred_at": {
+          "format": "date-time",
+          "title": "Occurred At",
+          "type": "string"
+        },
+        "delta": {
+          "title": "Delta",
+          "type": "string"
+        },
+        "message_id": {
+          "anyOf": [
+            {
+              "format": "uuid",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Message Id"
+        }
+      },
+      "required": [
+        "event",
+        "request_id",
+        "conversation_id",
+        "run_id",
+        "trace_id",
+        "occurred_at",
+        "delta",
+        "message_id"
+      ],
+      "title": "AnswerDeltaEvent",
+      "type": "object"
+    },
+    "SourcesEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event": {
+          "const": "sources",
+          "default": "sources",
+          "title": "Event",
+          "type": "string"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "run_id": {
+          "format": "uuid",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "trace_id": {
+          "format": "uuid",
+          "title": "Trace Id",
+          "type": "string"
+        },
+        "occurred_at": {
+          "format": "date-time",
+          "title": "Occurred At",
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/SourceCard"
+          },
+          "title": "Sources",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event",
+        "request_id",
+        "conversation_id",
+        "run_id",
+        "trace_id",
+        "occurred_at",
+        "sources"
+      ],
+      "title": "SourcesEvent",
+      "type": "object"
+    },
+    "CardsEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event": {
+          "const": "cards",
+          "default": "cards",
+          "title": "Event",
+          "type": "string"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "run_id": {
+          "format": "uuid",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "trace_id": {
+          "format": "uuid",
+          "title": "Trace Id",
+          "type": "string"
+        },
+        "occurred_at": {
+          "format": "date-time",
+          "title": "Occurred At",
+          "type": "string"
+        },
+        "cards": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "action": "#/$defs/ActionCard",
+                "price": "#/$defs/PriceCard",
+                "product": "#/$defs/ProductCard"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/ProductCard"
+              },
+              {
+                "$ref": "#/$defs/PriceCard"
+              },
+              {
+                "$ref": "#/$defs/ActionCard"
+              }
+            ]
+          },
+          "title": "Cards",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event",
+        "request_id",
+        "conversation_id",
+        "run_id",
+        "trace_id",
+        "occurred_at",
+        "cards"
+      ],
+      "title": "CardsEvent",
+      "type": "object"
+    },
+    "DoneEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event": {
+          "const": "done",
+          "default": "done",
+          "title": "Event",
+          "type": "string"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "run_id": {
+          "format": "uuid",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "trace_id": {
+          "format": "uuid",
+          "title": "Trace Id",
+          "type": "string"
+        },
+        "occurred_at": {
+          "format": "date-time",
+          "title": "Occurred At",
+          "type": "string"
+        },
+        "message_id": {
+          "format": "uuid",
+          "title": "Message Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": ["completed", "cancelled"],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "event",
+        "request_id",
+        "conversation_id",
+        "run_id",
+        "trace_id",
+        "occurred_at",
+        "message_id",
+        "status"
+      ],
+      "title": "DoneEvent",
+      "type": "object"
+    },
+    "ErrorEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event": {
+          "const": "error",
+          "default": "error",
+          "title": "Event",
+          "type": "string"
+        },
+        "request_id": {
+          "format": "uuid",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "conversation_id": {
+          "format": "uuid",
+          "title": "Conversation Id",
+          "type": "string"
+        },
+        "run_id": {
+          "format": "uuid",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "trace_id": {
+          "format": "uuid",
+          "title": "Trace Id",
+          "type": "string"
+        },
+        "occurred_at": {
+          "format": "date-time",
+          "title": "Occurred At",
+          "type": "string"
+        },
+        "error": {
+          "$ref": "#/$defs/SafeError"
+        }
+      },
+      "required": [
+        "event",
+        "request_id",
+        "conversation_id",
+        "run_id",
+        "trace_id",
+        "occurred_at",
+        "error"
+      ],
+      "title": "ErrorEvent",
+      "type": "object"
+    },
+    "SseEvent": {
+      "discriminator": {
+        "mapping": {
+          "answer_delta": "#/$defs/AnswerDeltaEvent",
+          "cards": "#/$defs/CardsEvent",
+          "done": "#/$defs/DoneEvent",
+          "error": "#/$defs/ErrorEvent",
+          "sources": "#/$defs/SourcesEvent",
+          "status": "#/$defs/StatusEvent"
+        },
+        "propertyName": "event"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/StatusEvent"
+        },
+        {
+          "$ref": "#/$defs/AnswerDeltaEvent"
+        },
+        {
+          "$ref": "#/$defs/SourcesEvent"
+        },
+        {
+          "$ref": "#/$defs/CardsEvent"
+        },
+        {
+          "$ref": "#/$defs/DoneEvent"
+        },
+        {
+          "$ref": "#/$defs/ErrorEvent"
+        }
+      ]
+    }
+  }
+}

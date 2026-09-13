@@ -68,9 +68,9 @@ Priority: P0 | Size: M | Role: Backend + frontend | Depends on: T01
 
 Scope: Define Pydantic schemas and TypeScript types for chat requests, SSE events, tool envelopes, source/product/price/action cards and safe errors.
 
-- [ ] Examples cover unknown/unavailable values, currency, timestamps and sign-in-required actions.
-- [ ] Schema generation or a compatibility check prevents Python/TypeScript contract drift.
-- [ ] Distinct request, conversation, run, trace and tool-call identifiers are documented.
+- [x] Examples cover unknown/unavailable values, currency, timestamps and sign-in-required actions.
+- [x] Schema generation or a compatibility check prevents Python/TypeScript contract drift.
+- [x] Distinct request, conversation, run, trace and tool-call identifiers are documented.
 
 ### T03 — Implement environment validation and dev fixtures
 
