@@ -69,3 +69,8 @@
 - Added root `Makefile` shortcuts: `make api`, `make web`, and `make dev` for the FastAPI server, Vite server, or both together.
 - Documented the shortcuts in `README.md`.
 - Verification: `make dev` started both servers; direct health and Vite `/api` proxy requests returned the FastAPI health response. Unit and integration tests remain deferred under MVP policy.
+
+## 2026-09-13 — Trello MCP routing
+
+- Updated `AGENTS.md` to require Trello MCP tools for all Trello reads and writes, prohibit browser or UI automation for Trello, and require human clarification when MCP access is unavailable or insufficient.
+- Verification: reviewed the documentation diff and local references. No Trello operation, card transition, branch, commit, push, PR, or tests performed.

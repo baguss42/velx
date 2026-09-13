@@ -14,6 +14,7 @@ These instructions apply throughout this repository.
 ## Human direction and workflow
 
 - Implement tasks assigned by the human on the Trello **VelX** dashboard. Do not choose additional tasks or expand scope independently.
+- Use the Trello MCP tools for all Trello reads and writes, including finding boards and cards, reading card scope and checklists, moving cards, updating checklists, and confirming transitions. Do not use browser or UI automation for Trello. If MCP access is unavailable or lacks a required operation, stop and ask the human rather than silently switching to the browser.
 - Before implementation, identify the assigned card, read its scope and dependencies, and move it to **Dev**.
 - Use a dedicated task branch and create a pull request (PR) for every task, including documentation and configuration changes. Push commits only to the task branch; never push directly to `main` or the repository's default branch.
 - After implementation is complete, push the task branch and open a PR against the repository's default branch. Include the task ID, change summary, verification results, and deferred work in the PR. Do not merge the PR unless the human explicitly authorizes it.
