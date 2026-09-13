@@ -104,6 +104,16 @@ Test / review evidence:
 Deferred under MVP verification policy: no backend or frontend test suite exists yet, so
 conditional test steps report the missing suites rather than claiming test coverage.
 
+Delivery:
+
+- Branch: T04-create-ci-checks-both-applications
+- Commit: 08d0e2f
+- Pull request: https://github.com/baguss42/velx/pull/4
+- Verification: backend/frontend check targets, workflow YAML parsing, documentation and
+  workflow formatting, conditional test-gate smoke checks, and local Gitleaks scan passed.
+- Deferred: backend/frontend tests and PostgreSQL integration tests remain deferred under
+  the MVP verification policy; actionlint and local pip-audit were unavailable.
+
 ## M02 — PostgreSQL and SQLAlchemy
 
 ### T05 — Create catalog and commercial schema migrations
