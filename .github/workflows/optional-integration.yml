@@ -1,0 +1,64 @@
+name: Optional PostgreSQL integration
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_tests:
+        description: Run integration tests when the repository provides them
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  postgres:
+    name: PostgreSQL integration checks
+    if: ${{ inputs.run_tests }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: showroom
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U app -d showroom"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10
+        with:
+          version: "0.12.12"
+          python-version: "3.12"
+          enable-cache: true
+
+      - name: Install locked Python dependencies
+        run: uv sync --locked
+
+      - name: Run PostgreSQL integration tests when present
+        shell: bash
+        env:
+          DATABASE_URL: postgresql+psycopg://app:app@localhost:5432/showroom
+        run: |
+          set -euo pipefail
+          test_file="$(find tests/integration -type f \( -name 'test_*.py' -o -name '*_test.py' \) -print -quit 2>/dev/null || true)"
+          if [ -n "$test_file" ]; then
+            if ! .venv/bin/python -c "import pytest"; then
+              echo "::error::Integration test files found, but pytest is not installed in the locked development dependencies."
+              exit 1
+            fi
+            .venv/bin/python -m pytest tests/integration
+          else
+            echo "::notice title=PostgreSQL tests deferred::No PostgreSQL integration test suite is present; no integration claims were made."
+          fi

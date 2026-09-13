@@ -92,3 +92,29 @@
 - Added clearly labeled fictional showroom, car, and price fixtures gated to development/test environments; production-like environments cannot retrieve them.
 - Verification: configuration and fixture smoke checks passed, including valid production configuration and rejection of fake auth/mock providers, unsafe URLs, missing provider credentials, and enabled integration credentials. Backend Ruff format/check and mypy, contract compatibility, frontend formatting/type-check/build, health endpoint smoke, `uv lock`, and `graphify update .` passed. Unit and integration tests remain deferred under MVP policy.
 - Checked all three T03 acceptance items in `docs/BLUEPRINT/car-showroom-chatbot-trello-backlog.md`. Commit `e5c6c23` is pushed on `T03-environment-validation-dev-fixtures`; pull request [#3](https://github.com/baguss42/velx/pull/3) is open against `main`; Trello card is confirmed in `Code Review`. Unit and integration tests remain deferred under MVP policy.
+
+## 2026-09-13 — T04 CI checks (implementation)
+
+- Trello card T04 — Create CI checks for both applications was selected as the next
+  unblocked backlog task after T01, T02, and T03; it was moved from Backlog to Dev before
+  implementation. The dedicated branch is T04-create-ci-checks-both-applications.
+- Added required offline GitHub Actions jobs for locked backend/frontend checks, conditional
+  test execution, Gitleaks secret scanning, and pull-request dependency review. Added a
+  manual-only PostgreSQL integration workflow and matching make backend-checks,
+  make frontend-checks, and make ci-checks targets.
+- Updated README.md and the T04 backlog evidence. No package dependencies or environment
+  variables changed. Current action versions use Node 24-compatible action runtimes.
+- Verification: make backend-checks, make frontend-checks, workflow YAML parsing with Ruby,
+  workflow/documentation Prettier checks, conditional test-gate smoke checks, and local
+  gitleaks detect --source . --no-banner --redact passed. actionlint and local pip-audit are
+  unavailable. No backend/frontend test suite exists; test execution and PostgreSQL
+  integration remain deferred under the MVP policy.
+- Commit 08d0e2f was created and pushed on T04-create-ci-checks-both-applications. Pull
+  request #4 (https://github.com/baguss42/velx/pull/4) was created against main by
+  baguss42. Commit 6935446 records the final handoff metadata and is also pushed. Trello
+  card was confirmed in Code Review after the final push and PR creation.
+- Added explicit AGENTS.md guidance for verifying the baguss42 GitHub actor before PR
+  creation, using the connected GitHub API/connector or verified gh CLI, and checking PR
+  author/refs before the Trello transition.
+- Commit 99a8178 was pushed to the task branch; PR #4 now points to that head and remains
+  open against main, with the connected account and PR author verified as baguss42.

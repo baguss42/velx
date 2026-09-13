@@ -59,6 +59,22 @@ npm --prefix frontend run typecheck
 npm --prefix frontend run build
 ```
 
+The same offline check groups used by CI can be run locally:
+
+```sh
+make backend-checks
+make frontend-checks
+```
+
+Pull requests and pushes to main run these checks from locked Python and npm
+dependencies in [.github/workflows/ci.yml](.github/workflows/ci.yml). Backend and frontend
+test commands run when a test suite exists; missing suites are reported as deferred under
+the MVP verification policy. Secret scanning uses Gitleaks, and pull requests receive
+GitHub dependency-review results with high-severity findings failing the check. Optional
+PostgreSQL integration checks are manual-only in
+[.github/workflows/optional-integration.yml](.github/workflows/optional-integration.yml)
+and are not required for offline pull-request checks.
+
 Contract artifacts are generated from the canonical Pydantic models:
 
 ```sh

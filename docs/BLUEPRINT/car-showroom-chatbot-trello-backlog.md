@@ -88,9 +88,32 @@ Priority: P0 | Size: S | Role: Platform | Depends on: T01, T02, T03
 
 Scope: Run backend/frontend static checks, tests and frontend build; make room for PostgreSQL integration tests.
 
-- [ ] Pull requests run repeatable checks without real cloud credentials.
-- [ ] Secret and dependency scanning are configured with actionable output.
-- [ ] Failed tests/builds fail CI; optional live tests are separate from required offline checks.
+- [x] Pull requests run repeatable checks without real cloud credentials.
+- [x] Secret and dependency scanning are configured with actionable output.
+- [x] Failed tests/builds fail CI; optional live tests are separate from required offline checks.
+
+Test / review evidence:
+
+- .github/workflows/ci.yml runs locked backend checks, frontend checks, conditional test
+  suites, Gitleaks secret scanning, and pull-request dependency review without cloud
+  provider credentials.
+- .github/workflows/optional-integration.yml isolates manual PostgreSQL integration
+  checks from required offline pull-request jobs.
+- make backend-checks and make frontend-checks provide the same local check groups.
+
+Deferred under MVP verification policy: no backend or frontend test suite exists yet, so
+conditional test steps report the missing suites rather than claiming test coverage.
+
+Delivery:
+
+- Branch: T04-create-ci-checks-both-applications
+- Commit: 08d0e2f
+- Pull request: https://github.com/baguss42/velx/pull/4
+- Verification: backend/frontend check targets, workflow YAML parsing, documentation and
+  workflow formatting, conditional test-gate smoke checks, and local Gitleaks scan passed.
+- Deferred: backend/frontend tests and PostgreSQL integration tests remain deferred under
+  the MVP verification policy; actionlint and local pip-audit were unavailable.
+- Trello: card confirmed in Code Review after branch push and PR creation.
 
 ## M02 — PostgreSQL and SQLAlchemy
 
