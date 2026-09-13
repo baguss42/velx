@@ -2,10 +2,14 @@
 
 from fastapi import FastAPI
 
+from app.config import get_settings
+
+settings = get_settings()
+
 app = FastAPI(
     title="VelX API",
-    version="0.1.0",
-    description="Local foundation API for the VelX showroom chatbot.",
+    version=settings.app_version,
+    description=f"{settings.showroom_name} API.",
 )
 
 

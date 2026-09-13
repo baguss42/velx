@@ -83,3 +83,12 @@
 - Added contract documentation for distinct request, conversation, run, trace, and tool-call identifiers; updated `Makefile`, `README.md`, and frontend type exports.
 - Verification: `make contracts-check`, `.venv/bin/ruff format --check app scripts`, `.venv/bin/ruff check app scripts`, `.venv/bin/mypy app`, frontend Prettier check, TypeScript check, and Vite build passed. `graphify update .` refreshed the local ignored code graph. Unit and integration tests remain deferred under MVP policy.
 - Checked all three T02 acceptance items in `docs/BLUEPRINT/car-showroom-chatbot-trello-backlog.md`; checklist update is included in the task branch and PR.
+
+## 2026-09-13 — T03 environment validation and development fixtures
+
+- Trello card `T03 — Implement environment validation and dev fixtures` was found on VelX and moved from `Backlog` to `Dev` before implementation.
+- Added Pydantic Settings configuration for all design-defined backend variables, safe local defaults, list/boolean/URL parsing, secret masking, explicit fake/mock local modes, production-like startup guards, and separate PostgreSQL role validation.
+- Added root `.env.example` covering every backend setting without usable secrets and clarified the public frontend `.env.example` proxy setting. Added local configuration guidance to `README.md` and declared `pydantic-settings` in `pyproject.toml`/`uv.lock`.
+- Added clearly labeled fictional showroom, car, and price fixtures gated to development/test environments; production-like environments cannot retrieve them.
+- Verification: configuration and fixture smoke checks passed, including valid production configuration and rejection of fake auth/mock providers, unsafe URLs, missing provider credentials, and enabled integration credentials. Backend Ruff format/check and mypy, contract compatibility, frontend formatting/type-check/build, health endpoint smoke, `uv lock`, and `graphify update .` passed. Unit and integration tests remain deferred under MVP policy.
+- Checked all three T03 acceptance items in `docs/BLUEPRINT/car-showroom-chatbot-trello-backlog.md`. Current branch: `T03-environment-validation-dev-fixtures`; commit, push, PR creation, and Code Review transition remain pending.
