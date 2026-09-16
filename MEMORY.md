@@ -155,3 +155,10 @@
 - Verification: `make backend-checks`, `make contracts-check`, `uv lock --check`, focused seed
   safety smoke checks, and live Compose migration/seed/idempotency/count smoke checks passed.
 - No commit, push, PR, or Trello transition performed.
+
+## 2026-09-16 — T05 handoff continuation
+
+- T05 remains the assigned VelX card and is confirmed in `Dev`; its three acceptance items remain checked in the backlog.
+- Re-ran `make backend-checks`, `uv lock --check`, locked dry-run sync, `docker compose config --quiet`, and Gitleaks; all passed. Unit and integration tests remain deferred under the MVP policy.
+- GitHub connector authentication is confirmed as `baguss42`. Existing PR #5 points to commit `06ad844` but is closed and authored by `bagus-bfi`; it does not satisfy the repository-local account or open-PR handoff rules.
+- Unrelated untracked `IDEA.md` is preserved and excluded from T05 changes. A fresh handoff commit and PR are pending.
