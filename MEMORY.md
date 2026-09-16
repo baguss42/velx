@@ -162,3 +162,10 @@
 - Re-ran `make backend-checks`, `uv lock --check`, locked dry-run sync, `docker compose config --quiet`, and Gitleaks; all passed. Unit and integration tests remain deferred under the MVP policy.
 - GitHub connector authentication is confirmed as `baguss42`. Existing PR #5 points to commit `06ad844` but is closed and authored by `bagus-bfi`; it does not satisfy the repository-local account or open-PR handoff rules.
 - Unrelated untracked `IDEA.md` is preserved and excluded from T05 changes. A fresh handoff commit and PR are pending.
+
+## 2026-09-16 — T05 PR and Trello handoff complete
+
+- Pushed handoff commit `6bdd814` on `T05-create-catalog-commercial-schema-migrations` through the configured personal SSH remote.
+- Created open PR [#6](https://github.com/baguss42/velx/pull/6) as `baguss42`, targeting `main`; PR metadata was verified before the Trello transition.
+- Moved T05 from `Dev` to `Code Review` after successful branch push and PR creation. No merge was performed.
+- Final memory-only handoff commit remains part of the same task branch; unrelated untracked `IDEA.md` remains preserved.
