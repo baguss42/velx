@@ -118,3 +118,54 @@
   author/refs before the Trello transition.
 - Commit 99a8178 was pushed to the task branch; PR #4 now points to that head and remains
   open against main, with the connected account and PR author verified as baguss42.
+
+## 2026-09-14 — T05 catalog/commercial schema and local PostgreSQL infrastructure
+
+- T05 remains limited to tenant-scoped catalog/commercial tables, Alembic migration, guarded fictional
+  development seeding, and the explicitly requested local PostgreSQL Compose infrastructure. T06
+  identity/conversation tables were not added.
+- Added `docker-compose.yml` with PostgreSQL 16 Alpine, loopback-only binding, healthcheck, and a
+  persistent named volume; added `infra-up`, `infra-down`, and `infra-logs` targets plus matching
+  `.env.example`, README, and `docs/database.md` guidance.
+- Added SQLAlchemy/Alembic schema for tenants, branches, car models/variants, approved assets,
+  vehicle units, price offers, and integration sync state. Added tenant-safe foreign keys, lookup
+  indexes, monetary/currency/status checks, finite validity bounds, `btree_gist` non-overlap
+  enforcement, and an available-only VIN-free view.
+- Seed path requires `DEV_SEED_ENABLED=true`, a dedicated validated `MIGRATION_DATABASE_URL`, and a
+  local/test target. It is idempotent for matching fixtures, rejects deterministic-ID collisions,
+  and verifies every supplied fixture field on read-back. Asset URLs reject credentials, whitespace,
+  malformed authorities, and ports outside 1–65535.
+- Verification: `make backend-checks`, `uv lock --check`, locked dry-run sync, Gitleaks, Compose
+  config validation, Compose PostgreSQL readiness/SQL connectivity, missing/invalid migration URL
+  rejection, offline and live Alembic upgrade/downgrade, two seed runs, all eight seeded row counts,
+  availability view, URL acceptance/rejection probes, and collision-preservation smoke checks passed.
+  Unit and integration tests remain deferred under the MVP policy.
+- The local database is downgraded to base after verification. Task files remain uncommitted; PR
+  creation and Trello Code Review transition are blocked until `gh` is authenticated as `baguss42`
+  instead of the active `bagus-bfi` account.
+
+## 2026-09-14 — T05 seed safety review blockers
+
+- Tightened `seed_development_database()` to compare the supplied SQLAlchemy engine's driver,
+  role, password, normalized host, defaulted PostgreSQL port, and database against the validated
+  `MIGRATION_DATABASE_URL`; mismatch errors remain credential-free.
+- `validate_seed_settings()` now rejects bracketed IPv6 authorities and malformed or out-of-range
+  ports while preserving localhost, loopback IPv4, explicit opt-in, local/test, and dedicated-role
+  guards. Documentation now states that bracketed IPv6 is rejected.
+- Verification: `make backend-checks`, `make contracts-check`, `uv lock --check`, focused seed
+  safety smoke checks, and live Compose migration/seed/idempotency/count smoke checks passed.
+- No commit, push, PR, or Trello transition performed.
+
+## 2026-09-16 — T05 handoff continuation
+
+- T05 remains the assigned VelX card and is confirmed in `Dev`; its three acceptance items remain checked in the backlog.
+- Re-ran `make backend-checks`, `uv lock --check`, locked dry-run sync, `docker compose config --quiet`, and Gitleaks; all passed. Unit and integration tests remain deferred under the MVP policy.
+- GitHub connector authentication is confirmed as `baguss42`. Existing PR #5 points to commit `06ad844` but is closed and authored by `bagus-bfi`; it does not satisfy the repository-local account or open-PR handoff rules.
+- Unrelated untracked `IDEA.md` is preserved and excluded from T05 changes. A fresh handoff commit and PR are pending.
+
+## 2026-09-16 — T05 PR and Trello handoff complete
+
+- Pushed handoff commit `6bdd814` on `T05-create-catalog-commercial-schema-migrations` through the configured personal SSH remote.
+- Created open PR [#6](https://github.com/baguss42/velx/pull/6) as `baguss42`, targeting `main`; PR metadata was verified before the Trello transition.
+- Moved T05 from `Dev` to `Code Review` after successful branch push and PR creation. No merge was performed.
+- Final memory-only handoff commit remains part of the same task branch; unrelated untracked `IDEA.md` remains preserved.

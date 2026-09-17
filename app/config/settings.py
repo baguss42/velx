@@ -147,7 +147,7 @@ def _validate_database_url(name: str, value: str, *, production: bool) -> list[s
     if parsed.scheme not in _POSTGRES_SCHEMES or parsed.hostname is None:
         errors.append(f"{name} must be a PostgreSQL URL using postgresql or postgresql+psycopg")
         return errors
-    if parsed.username is None:
+    if not parsed.username:
         errors.append(f"{name} must include a dedicated database role")
     if parsed.password is None and production:
         errors.append(f"{name} must include an injected database credential")
@@ -197,6 +197,7 @@ class Settings(BaseSettings):
     business_database_url: str | None = None
     migration_database_url: str | None = None
     checkpoint_database_url: str | None = None
+    dev_seed_enabled: bool = False
     db_pool_size: int = Field(default=5, ge=1, le=100)
     db_max_overflow: int = Field(default=0, ge=0, le=100)
     db_statement_timeout_ms: int = Field(default=3000, ge=100, le=120_000)
@@ -323,6 +324,8 @@ class Settings(BaseSettings):
             errors.append("PII_ENCRYPTION_KEY_REF is required outside local development")
         if production and self.telemetry_capture_content:
             errors.append("TELEMETRY_CAPTURE_CONTENT must remain false outside local development")
+        if production and self.dev_seed_enabled:
+            errors.append("DEV_SEED_ENABLED must remain false outside local development")
 
         if errors:
             raise ValueError("; ".join(errors))
